@@ -89,6 +89,7 @@ const primitives = {
   brand_50: '#F3EFF5',
 };
 
+
 export const Colors = {
   light: {
     background: {
@@ -198,7 +199,7 @@ export const Colors = {
       },
     },
     // original colors
-    tint: tintColorLight,
+    // tint: tintColorLight,
     // tabIconDefault: '#687076',
     // tabIconSelected: tintColorLight,
   },

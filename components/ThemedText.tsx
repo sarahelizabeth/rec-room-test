@@ -6,16 +6,12 @@ export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
   type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
+  colorScheme?: 'main' | 'secondary' | 'brand';
+  colorType?: any;
 };
 
-export function ThemedText({
-  style,
-  lightColor,
-  darkColor,
-  type = 'default',
-  ...rest
-}: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+export function ThemedText({ style, lightColor, darkColor, type = 'default', colorScheme = 'main', colorType = 'primary', ...rest }: ThemedTextProps) {
+  const color = useThemeColor({ light: lightColor, dark: darkColor, colorScheme: colorScheme, colorType: colorType }, 'text');
 
   return (
     <Text
