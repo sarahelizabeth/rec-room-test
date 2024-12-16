@@ -7,7 +7,7 @@ import { buttons, modifiers } from '@/styles';
 export const useButtonStyles = (
   type: 'solid' | 'outline' | 'ghost' | 'floating' = 'solid',
   size: 'small' | 'medium' | 'large' | 'xLarge' = 'medium',
-  variant: 'primary' | 'secondary' = 'primary',
+  variant: 'primary' | 'secondary' | 'tertiary' = 'primary',
   isPill?: boolean,
   isDisabled?: boolean
 ) => {

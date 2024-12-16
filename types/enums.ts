@@ -1,6 +1,7 @@
-export enum AuthStrategy {
+export enum OAuthStrategy {
   Google = 'oauth_google',
   Apple = 'oauth_apple',
+  Facebook = 'oauth_facebook',
 }
 
 export interface User {

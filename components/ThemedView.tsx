@@ -5,22 +5,19 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 export type ThemedViewProps = ViewProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'containerRow' | 'page' | 'card' | 'modal';
+  type?: 'default' | 'containerRow' | 'fullPage' | 'card' | 'modal';
   colorScheme?: 'main' | 'secondary' | 'brand';
   colorType?: any;
 };
 
 export function ThemedView({ style, lightColor, darkColor, type = 'default', colorScheme = 'main', colorType = 'primary', ...rest }: ThemedViewProps) {
-  // color type preferences go here
-  // if (type === 'page') colorType = 'secondary';
-
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor, colorScheme: colorScheme, colorType: colorType }, 'background');
 
   return <View style={[
-        { backgroundColor },
+        { backgroundColor } as const,
         type === 'default' ? styles.default : undefined,
         type === 'containerRow' ? styles.containerRow : undefined,
-        type === 'page' ? styles.page : undefined,
+        type === 'fullPage' ? styles.fullPage : undefined,
         type === 'card' ? styles.card : undefined,
         type === 'modal' ? styles.modal : undefined,
         style,
@@ -40,10 +37,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   // fill the screen
-  page: {
+  fullPage: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingHorizontal: 12,
   },
   card: {
     flex: 1,
@@ -52,7 +54,8 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 12,
   },
 });

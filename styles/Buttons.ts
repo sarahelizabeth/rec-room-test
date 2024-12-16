@@ -28,7 +28,7 @@ const baseButton: ViewStyle = {
   justifyContent: 'center',
   alignItems: 'center',
   paddingHorizontal: 24,
-  // width: '100%',
+  gap: 10,
   alignSelf: 'stretch',
 };
 
@@ -85,6 +85,15 @@ export const buttons = {
           disabled: { colorScheme: 'main' as ColorScheme, colorType: 'disabled' as ColorType },
         }
       },
+      tertiary: {
+        background: {
+          default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
+        },
+        text: {
+          default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
+          disabled: { colorScheme: 'brand' as ColorScheme, colorType: 'disabled' as ColorType },
+        }
+      }
     }
   },
   outline: {
@@ -119,6 +128,15 @@ export const buttons = {
           disabled: { colorScheme: 'secondary' as ColorScheme, colorType: 'disabled' as ColorType },
         }
       },
+      tertiary: {
+        border: {
+          default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
+        },
+        text: {
+          default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
+          disabled: { colorScheme: 'brand' as ColorScheme, colorType: 'disabled' as ColorType },
+        }
+      }
     },
   },
   ghost: {
@@ -140,6 +158,15 @@ export const buttons = {
           disabled: { colorScheme: 'secondary' as ColorScheme, colorType: 'disabled' as ColorType },
         }
       },
+      tertiary: {
+        background: {
+          default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
+        },
+        text: {
+          default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
+          disabled: { colorScheme: 'brand' as ColorScheme, colorType: 'disabled' as ColorType },
+        }
+      }
     }
   },
   floating: {
@@ -167,6 +194,15 @@ export const buttons = {
           disabled: { colorScheme: 'brand' as ColorScheme, colorType: 'disabled' as ColorType },
         }
       },
+      tertiary: {
+        background: {
+          default: { colorScheme: 'main' as ColorScheme, colorType: 'secondary' as ColorType },
+        },
+        text: {
+          default: { colorScheme: 'main' as ColorScheme, colorType: 'secondary' as ColorType },
+          disabled: { colorScheme: 'main' as ColorScheme, colorType: 'disabled' as ColorType },
+        }
+      }
     }
   }
 };

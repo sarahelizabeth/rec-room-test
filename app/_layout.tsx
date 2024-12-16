@@ -21,6 +21,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { ActivityIndicator, LogBox, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { SupabaseProvider } from '@/context/SupabaseContext';
 
 LogBox.ignoreAllLogs();
 
@@ -42,6 +43,7 @@ const InitialLayout = () => {
     if (!isLoaded) return;
 
     const inAuthGroup = segments[0] === '(auth)';
+    console.log(segments);
 
     if (isSignedIn && !inAuthGroup) {
       router.replace('/(auth)/(tabs)/feed');
@@ -59,13 +61,14 @@ const InitialLayout = () => {
   }
 
   return (
-    // <SupabaseProvider>
+    <SupabaseProvider>
       <Stack>
         <Stack.Screen name='index' options={{ headerShown: false }} />
+        <Stack.Screen name='(onboarding)' options={{ headerShown: false }} />
         <Stack.Screen name='(auth)' options={{ headerShown: false }} />
         <Stack.Screen name='+not-found' />
       </Stack>
-    // </SupabaseProvider>
+    </SupabaseProvider>
   );
 };
 

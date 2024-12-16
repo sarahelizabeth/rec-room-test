@@ -24,12 +24,12 @@ export const extraBold = {
 
 export const display = {
   sm: {
-    ...bold,
+    ...extraBold,
     fontSize: 56,
     lineHeight: 40,
   },
   md: {
-    ...bold,
+    ...extraBold,
     fontSize: 64,
     lineHeight: 48,
   },
@@ -42,18 +42,36 @@ export const display = {
 
 export const label = {
   sm: {
-    ...semiBold,
+    ...bold,
     fontSize: 12,
     lineHeight: 16,
   },
   md: {
-    ...semiBold,
+    ...bold,
     fontSize: 14,
     lineHeight: 20,
   },
   lg: {
-    ...semiBold,
+    ...bold,
     fontSize: 16,
     lineHeight: 24,
+  },
+};
+
+export const body = {
+  xs: {
+    ...regular,
+    fontSize: 10,
+    lineHeight: 16,
+  },  
+  sm: {
+    ...regular,
+    fontSize: 12,
+    lineHeight: 16,
+  },
+  md: {
+    ...regular,
+    fontSize: 14,
+    lineHeight: 20,
   },
 };

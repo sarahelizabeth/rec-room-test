@@ -81,10 +81,12 @@ export const Colors = {
       },
       brand: {
         primary: Primitives.brand_600,
+        secondary: Primitives.brand_400,
+        tertiary: Primitives.brand_300,
         bold: Primitives.brand_700,
         selected: Primitives.brand_500,
         subtle: Primitives.brand_200,
-        disabled: Primitives.brand_200,
+        disabled: Primitives.brand_100,
       },
     },
     icon: {

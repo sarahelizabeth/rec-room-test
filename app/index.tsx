@@ -7,8 +7,10 @@ import { Colors } from '@/styles/Colors';
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useRef } from 'react';
 import SignUpModal from '@/components/auth/SignUpModal';
+import { useRouter } from 'expo-router';
 
 export default function Index() {
+  const router = useRouter();
   const { top } = useSafeAreaInsets();
   const mainButton = useButtonStyles('floating', 'xLarge', 'secondary');
   const secondaryButton = useButtonStyles('ghost', 'medium', 'primary');
@@ -49,7 +51,7 @@ export default function Index() {
         <Text style={styles.splashTitle}>theRecRoom</Text>
 
         <View style={{ flex: 1, alignItems: 'center', marginTop: 'auto', gap: 12, width: '100%' }}>
-          <TouchableOpacity style={mainButton.button} onPress={handleSignUpModal}>
+          <TouchableOpacity style={mainButton.button} onPress={() => router.push('/(onboarding)/signup')}>
             <Text style={mainButton.buttonText}>Sign Up</Text>
           </TouchableOpacity>
           <TouchableOpacity style={secondaryButton.button} onPress={() => signUpModalRef.current?.present()}>
