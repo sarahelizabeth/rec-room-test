@@ -2,13 +2,12 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { tokenCache } from '@/utils/tokenCache';
 import { ClerkProvider, ClerkLoaded, useAuth } from '@clerk/clerk-expo';
 import AppLoading from 'expo-app-loading';
 import {
   useFonts,
-  PlusJakartaSans_200ExtraLight,
   PlusJakartaSans_300Light,
   PlusJakartaSans_400Regular,
   PlusJakartaSans_500Medium,
@@ -20,6 +19,8 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { ActivityIndicator, LogBox, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 LogBox.ignoreAllLogs();
 
@@ -72,7 +73,6 @@ const InitialLayout = () => {
 export default function RootLayoutNav() {
   const colorScheme = useColorScheme();
   let [fontsLoaded] = useFonts({
-    PlusJakartaSans_200ExtraLight,
     PlusJakartaSans_300Light,
     PlusJakartaSans_400Regular,
     PlusJakartaSans_500Medium,
@@ -95,8 +95,12 @@ export default function RootLayoutNav() {
     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
       <ClerkLoaded>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <InitialLayout />
-          <StatusBar style='auto' />
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <BottomSheetModalProvider>
+              <InitialLayout />
+              <StatusBar style='auto' />
+            </BottomSheetModalProvider>
+          </GestureHandlerRootView>
         </ThemeProvider>
       </ClerkLoaded>
     </ClerkProvider>

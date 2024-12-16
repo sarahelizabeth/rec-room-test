@@ -12,7 +12,7 @@ export type ThemedTextProps = TextProps & {
 
 export function ThemedText({ style, lightColor, darkColor, type = 'default', colorScheme = 'main', colorType = 'primary', ...rest }: ThemedTextProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor, colorScheme: colorScheme, colorType: colorType }, 'text');
-
+  // TODO: Figure out typography
   return (
     <Text
       style={[
