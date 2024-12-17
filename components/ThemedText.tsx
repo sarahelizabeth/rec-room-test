@@ -5,10 +5,10 @@ import * as Typography from '@/styles/Typography';
 export type ThemedTextProps = TextProps & {
   children: React.ReactNode;
   variant?: 'body' | 'label' | 'display';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   weight?: 'light' | 'regular' | 'medium' | 'semiBold' | 'bold' | 'extraBold';
   colorScheme?: 'main' | 'secondary' | 'brand';
-  colorType?: 'primary' | 'secondary' | 'tertiary' | 'subtle' | 'neutral';
+  colorType?: 'primary' | 'secondary' | 'tertiary' | 'subtle' | 'neutral' | 'primary_inverse' | 'secondary_inverse' | 'neutral_inverse';
   lightColor?: string;
   darkColor?: string;
 };

@@ -12,7 +12,7 @@ export default function OnboardingLayout() {
         name='signup'
         options={{
           headerShown: false,
-          presentation: 'containedModal',
+          presentation: 'fullScreenModal',
           // title: 'Sign Up',
           // headerLeft: () => (
           //   <TouchableOpacity onPress={() => router.back()}>
@@ -48,6 +48,13 @@ export default function OnboardingLayout() {
       />
       <Stack.Screen
         name='emailAccount'
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+        }}
+      />
+      <Stack.Screen
+        name='createProfile'
         options={{
           headerShown: false,
           presentation: 'modal',

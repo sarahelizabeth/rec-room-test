@@ -20,12 +20,12 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { id, email_addresses, avatar_url, username } = (await req.json()).data;
+    const { id, email_addresses, avatar_url, username, first_name } = (await req.json()).data;
     const email = email_addresses[0].email_address;
 
     const { data, error } = await supabase
         .from('users')
-        .upsert({ id, email, avatar_url, username } as User);
+        .upsert({ id, email, avatar_url, username, first_name } as User);
 
     if (error) {
       return new Response(JSON.stringify(error), { status: 400 });

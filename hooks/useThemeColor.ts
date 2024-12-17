@@ -2,40 +2,76 @@ import { Colors } from '@/styles/Colors';
 import { Primitives } from '@/styles/Primitives';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+export type ColorScheme = 'main' | 'secondary' | 'brand' | 'info' | 'warning' | 'error' | 'success';
+export type ElementType = 'background' | 'text' | 'border' | 'icon';
+export type ColorType =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'hover'
+  | 'pressed'
+  | 'subtle'
+  | 'neutral'
+  | 'disabled'
+  | 'primary_inverse'
+  | 'secondary_inverse'
+  | 'neutral_inverse'
+  | 'tertiary_inverse'
+  | 'bold'
+  | 'selected'
+  | 'subtle_hover'
+  | 'subtle_pressed'
+  | 'inverse';
+
+interface ThemeColorProps {
+  light?: string;
+  dark?: string;
+  colorScheme?: ColorScheme;
+  colorType?: ColorType;
+}
+
 export function useThemeColor(
-  props: {
-    light?: string;
-    dark?: string;
-    colorScheme?: 'main' | 'secondary' | 'brand';
-    colorType?:
-      | 'primary'
-      | 'secondary'
-      | 'tertiary'
-      | 'hover'
-      | 'pressed'
-      | 'subtle'
-      | 'neutral'
-      | 'disabled'
-      | 'primary_inverse'
-      | 'secondary_inverse'
-      | 'neutral_inverse'
-      | 'bold'
-      | 'selected'
-      | 'subtle_hover'
-      | 'subtle_pressed';
-  },
-  elementType: 'background' | 'text' | 'border' | 'icon'
+  props: ThemeColorProps,
+  elementType: ElementType
 ): string {
   const theme = useColorScheme() ?? 'light';
+  const { light, dark, colorScheme = 'main', colorType = 'primary' } = props;
 
-  if (!props.light && props.dark) {
-    const colorValue = theme === 'light' ? props.light : props.dark;
-    const primitiveValue = Primitives[colorValue as keyof typeof Primitives];
-    return primitiveValue;
-  } else {
-    const themeColors = Colors[theme as keyof typeof Colors];
-    const elementColors = themeColors[elementType as keyof typeof themeColors];
-    const schemeColors = elementColors[props.colorScheme as keyof typeof elementColors];
-    return schemeColors[props.colorType as keyof typeof schemeColors];
+  // Handle direct light/dark color overrides
+  if (light || dark) {
+    const colorValue = theme === 'light' ? light : dark;
+    if (colorValue) {
+      const primitiveValue = Primitives[colorValue as keyof typeof Primitives];
+      return primitiveValue || colorValue;
+    }
   }
+
+  // Get colors from theme
+  const themeColors = Colors[theme as keyof typeof Colors];
+  const elementColors = themeColors[elementType];
+
+  // Handle missing color scheme or type
+  if (!elementColors[colorScheme as keyof typeof elementColors] || 
+      !elementColors[colorScheme as keyof typeof elementColors][colorType as keyof typeof elementColors[keyof typeof elementColors]]) {
+    // Fallback to main primary if specified combination doesn't exist
+    return themeColors[elementType].main.primary;
+  }
+
+  return elementColors[colorScheme as keyof typeof elementColors][colorType as keyof typeof elementColors[keyof typeof elementColors]];
 }
+
+
+// Basic usage
+// const color = useThemeColor({}, 'text');
+
+// // With color scheme and type
+// const brandColor = useThemeColor({ 
+//   colorScheme: 'brand', 
+//   colorType: 'hover' 
+// }, 'background');
+
+// // With direct color overrides
+// const customColor = useThemeColor({
+//   light: 'white_a100',
+//   dark: 'gray_900'
+// }, 'background');

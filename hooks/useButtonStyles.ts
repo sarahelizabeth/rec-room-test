@@ -2,7 +2,7 @@
 
 import { StyleSheet } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { buttons, modifiers } from '@/styles';
+import { Buttons, Modifiers } from '@/styles';
 
 export const useButtonStyles = (
   type: 'solid' | 'outline' | 'ghost' | 'floating' = 'solid',
@@ -11,35 +11,44 @@ export const useButtonStyles = (
   isPill?: boolean,
   isDisabled?: boolean
 ) => {
-  const buttonConfig = buttons[type].variants[variant];
+  const buttonConfig = Buttons[type].variants[variant];
+  const sizeConfig = Buttons[type].sizes[size];
 
-  // Get colors based on button type
+  // Get background color based on button type and variant
   const backgroundColor = (type === 'solid' || type === 'floating') && 'background' in buttonConfig
-    ? useThemeColor(buttonConfig.background.default, 'background')
+    ? useThemeColor({
+        colorScheme: buttonConfig.background.default.colorScheme,
+        colorType: buttonConfig.background.default.colorType
+      }, 'background')
     : 'transparent';
 
+  // Get border color for outline buttons
   const borderColor = type === 'outline' && 'border' in buttonConfig
-    ? useThemeColor(buttonConfig.border.default, 'border')
+    ? useThemeColor({
+        colorScheme: buttonConfig.border.default.colorScheme,
+        colorType: buttonConfig.border.default.colorType
+      }, 'border')
     : undefined;
 
-  const textColor = useThemeColor(isDisabled ? buttonConfig.text.disabled : buttonConfig.text.default, 'text');
+  // Get text color based on state and configuration
+  const textColor = useThemeColor({
+    colorScheme: buttonConfig.text[isDisabled ? 'disabled' : 'default'].colorScheme,
+    colorType: buttonConfig.text[isDisabled ? 'disabled' : 'default'].colorType
+  }, 'text');
 
   return StyleSheet.create({
     button: {
-      ...buttons[type].base,
-      ...buttons[type].sizes[size],
+      ...Buttons[type].base,
+      ...sizeConfig.container,
       backgroundColor,
       borderColor,
-      ...(isPill && modifiers.pill),
-      ...(isDisabled && modifiers.disabled),
+      ...(isPill && Modifiers.pill),
+      ...(isDisabled && Modifiers.disabled),
     },
     buttonText: {
-      fontSize: 16,
-      lineHeight: 24,
-      fontWeight: '600',
-      fontFamily: 'PlusJakartaSans-SemiBold',
+      ...sizeConfig.text,
       color: textColor,
-      textAlign: 'left',
+      textAlign: 'center',
     },
   });
 };

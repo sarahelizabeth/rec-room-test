@@ -1,61 +1,80 @@
 import { View, type ViewProps, StyleSheet } from 'react-native';
-
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { spacing } from '@/styles/DesignTokens';
+import { Elevation } from '@/styles/Effects';
 
 export type ThemedViewProps = ViewProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'containerRow' | 'fullPage' | 'card' | 'modal';
-  colorScheme?: 'main' | 'secondary' | 'brand';
-  colorType?: any;
+  variant?: 'default' | 'container' | 'fullPage' | 'card' | 'modal';
+  colorScheme?: 'main' | 'secondary' | 'brand' | 'info' | 'warning' | 'error' | 'success';
+  colorType?: 'primary' | 'secondary' | 'tertiary' | 'subtle' | 'neutral' | 'disabled';
+  elevation?: keyof typeof Elevation;
 };
 
-export function ThemedView({ style, lightColor, darkColor, type = 'default', colorScheme = 'main', colorType = 'primary', ...rest }: ThemedViewProps) {
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor, colorScheme: colorScheme, colorType: colorType }, 'background');
+export function ThemedView({ 
+  style, 
+  lightColor, 
+  darkColor, 
+  variant = 'default',
+  colorScheme = 'main',
+  colorType = 'primary',
+  elevation,
+  ...rest 
+}: ThemedViewProps) {
+  const backgroundColor = useThemeColor(
+    { 
+      light: lightColor, 
+      dark: darkColor, 
+      colorScheme, 
+      colorType 
+    }, 
+    'background'
+  );
 
-  return <View style={[
-        { backgroundColor } as const,
-        type === 'default' ? styles.default : undefined,
-        type === 'containerRow' ? styles.containerRow : undefined,
-        type === 'fullPage' ? styles.fullPage : undefined,
-        type === 'card' ? styles.card : undefined,
-        type === 'modal' ? styles.modal : undefined,
+  return (
+    <View 
+      style={[
+        { backgroundColor },
+        styles.base,
+        styles[variant],
+        elevation && Elevation[elevation],
         style,
-      ]} {...rest} />;
+      ]} 
+      {...rest} 
+    />
+  );
 }
 
 const styles = StyleSheet.create({
-  // basic flex container
-  default: {
+  base: {
     flex: 1,
+  },
+  default: {
     alignItems: 'center',
   },
-  // flex row container for a row of items
-  containerRow: {
+  container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding: spacing[12],
   },
-  // fill the screen
   fullPage: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    paddingHorizontal: 12,
+    paddingHorizontal: spacing[12],
   },
   card: {
-    flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding: spacing[16],
+    borderRadius: spacing[12],
   },
   modal: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 12,
+    padding: spacing[16],
+    borderRadius: spacing[12],
   },
 });

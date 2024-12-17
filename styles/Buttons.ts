@@ -1,7 +1,7 @@
 // styles/Buttons.ts
 
-import { Elevation } from './Effects';
-import { ViewStyle } from 'react-native';
+import { ViewStyle, TextStyle } from 'react-native';
+import { Typography, createTextStyle, Elevation, spacing } from '.';
 
 type ColorScheme = 'main' | 'secondary' | 'brand';
 type ColorType =
@@ -21,39 +21,50 @@ type ColorType =
   | 'subtle_hover'
   | 'subtle_pressed';
 
-
 // Base styles shared across all buttons
 const baseButton: ViewStyle = {
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  paddingHorizontal: 24,
-  gap: 10,
+  paddingHorizontal: 16,
+  gap: 8,
   alignSelf: 'stretch',
 };
 
-// Size variants
-const sizes: Record<string, ViewStyle> = {
+// Size variants using direct numeric values
+const sizes: Record<string, { container: ViewStyle, text: TextStyle }> = {
   small: {
-    paddingVertical: 8,
-    borderRadius: 6,
+    container: {
+      paddingVertical: 8,
+      borderRadius: 6,
+    },
+    text: createTextStyle('semiBold', Typography.body.sm),
   },
   medium: {
-    paddingVertical: 10,
-    borderRadius: 6,
+    container: {
+      paddingVertical: 12,
+      borderRadius: 6,
+    },
+    text: createTextStyle('semiBold', Typography.body.md),
   },
   large: {
-    paddingVertical: 12,
-    borderRadius: 8,
+    container: {
+      paddingVertical: 12,
+      borderRadius: 8,
+    },
+    text: createTextStyle('semiBold', Typography.body.lg),
   },
   xLarge: {
-    paddingVertical: 16,
-    borderRadius: 8,
+    container: {
+      paddingVertical: 24,
+      borderRadius: 8,
+    },
+    text: createTextStyle('semiBold', Typography.body.xl),
   }
 };
 
 // Button types with color schemes
-export const buttons = {
+export const Buttons = {
   solid: {
     base: {
       ...baseButton,
@@ -137,7 +148,7 @@ export const buttons = {
           disabled: { colorScheme: 'brand' as ColorScheme, colorType: 'disabled' as ColorType },
         }
       }
-    },
+    }
   },
   ghost: {
     base: {
@@ -207,10 +218,10 @@ export const buttons = {
   }
 };
 
-// Additional modifiers
-export const modifiers = {
+// Additional modifiers using direct numeric values
+export const Modifiers = {
   pill: {
-    borderRadius: 9999,
+    borderRadius: 999,
   },
   disabled: {
     opacity: 0.5,
