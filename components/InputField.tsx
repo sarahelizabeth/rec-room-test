@@ -1,9 +1,11 @@
-import { StyleSheet, TextInput, View, TextInputProps } from 'react-native'
+import { StyleSheet, TextInput, View, TextInputProps, KeyboardTypeOptions } from 'react-native'
 import React, { useState } from 'react'
 import { ThemedText } from './ThemedText'
 import { useThemeColor } from '@/hooks/useThemeColor'
 import { InputStyles } from '@/styles'
 import { Elevation } from '@/styles/Effects'
+import { ColorScheme } from '@/styles/Colors'
+import { AutoCompleteTypes, InputContentTypes } from '@/types/helpers'
 
 interface InputFieldProps extends Omit<TextInputProps, 'onChange'> {
   label: string
@@ -16,8 +18,12 @@ interface InputFieldProps extends Omit<TextInputProps, 'onChange'> {
   error?: string
   size?: 'small' | 'medium' | 'large'
   variant?: 'primary' | 'secondary'
-  colorScheme?: 'main' | 'brand' | 'info' | 'warning' | 'error' | 'success'
+  colorScheme?: ColorScheme
   disabled?: boolean
+  textContentType?: InputContentTypes
+  keyboardType?: KeyboardTypeOptions
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters'
+  autoCorrect?: boolean
 }
 
 const InputField = ({ 
@@ -34,6 +40,10 @@ const InputField = ({
   colorScheme = 'main',
   disabled,
   style,
+  textContentType = 'none',
+  autoComplete = 'off',
+  autoCapitalize = 'none',
+  autoCorrect = false,
   ...rest
 }: InputFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -129,6 +139,10 @@ const InputField = ({
           placeholderTextColor={placeholderColor}
           maxLength={maxLength}
           editable={!disabled}
+          textContentType={textContentType}
+          autoComplete={autoComplete}
+          autoCapitalize={autoCapitalize}
+          autoCorrect={autoCorrect}
           {...rest}
         />
         {rightIcon && <View style={InputStyles.base.iconContainer}>{rightIcon}</View>}

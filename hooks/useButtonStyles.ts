@@ -12,12 +12,6 @@ export const useButtonStyles = (
   isPill?: boolean,
   isDisabled?: boolean
 ) => {
-  console.log('buttonType:', buttonType);
-  console.log('Buttons:', Buttons);
-  console.log('type:', type);
-  console.log('size:', size);
-  console.log('variant:', variant);
-  
   const buttonConfig = Buttons[buttonType][type].variants[variant];
   const sizeConfig = Buttons[buttonType][type].sizes[size];
 

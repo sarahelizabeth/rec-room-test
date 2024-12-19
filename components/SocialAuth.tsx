@@ -1,10 +1,30 @@
 import { StyleSheet, View, Image } from 'react-native';
 import React from 'react';
-import { AUTH_OPTIONS } from '@/types/constants';
 import PrimaryButton from '@/components/PrimaryButton';
 import { useOAuth, useSignUp, useSignIn } from '@clerk/clerk-expo';
 import { OAuthStrategy } from '@/types/enums';
 import { useRouter } from 'expo-router';
+
+const AUTH_OPTIONS = [
+  {
+    signUpText: 'Sign up with Apple',
+    signInText: 'Log in with Apple',
+    strategy: OAuthStrategy.Apple,
+    icon: require('@/assets/images/apple.png'),
+  },
+  {
+    signUpText: 'Sign up with Google',
+    signInText: 'Log in with Google',
+    strategy: OAuthStrategy.Google,
+    icon: require('@/assets/images/google.png'),
+  },
+  {
+    signUpText: 'Sign up with Github',
+    signInText: 'Log in with Github',
+    strategy: OAuthStrategy.Github,
+    icon: require('@/assets/images/github.png'),
+  },
+];
 
 const SocialAuth = ({ type }: { type: 'signUp' | 'signIn' }) => {
   const router = useRouter();
@@ -12,7 +32,7 @@ const SocialAuth = ({ type }: { type: 'signUp' | 'signIn' }) => {
   const { signIn } = useSignIn();
   const { startOAuthFlow: googleAuth } = useOAuth({ strategy: OAuthStrategy.Google });
   const { startOAuthFlow: appleAuth } = useOAuth({ strategy: OAuthStrategy.Apple });
-  const { startOAuthFlow: facebookAuth } = useOAuth({ strategy: OAuthStrategy.Facebook });
+  const { startOAuthFlow: githubAuth } = useOAuth({ strategy: OAuthStrategy.Github });
 
   const onSelectAuth = async (strategy: OAuthStrategy) => {
     console.log('onSelectAuth', strategy);
@@ -26,8 +46,9 @@ const SocialAuth = ({ type }: { type: 'signUp' | 'signIn' }) => {
     const selectedAuth = {
       [OAuthStrategy.Google]: googleAuth,
       [OAuthStrategy.Apple]: appleAuth,
-      [OAuthStrategy.Facebook]: facebookAuth,
+      [OAuthStrategy.Github]: githubAuth,
     }[strategy];
+
 
     // If the user has an account in your application, but does not yet
     // have an OAuth account connected to it, you can transfer the OAuth
@@ -70,6 +91,8 @@ const SocialAuth = ({ type }: { type: 'signUp' | 'signIn' }) => {
       // and has an OAuth account connected to it, you can sign them in.
       try {
         const { createdSessionId, setActive } = await selectedAuth();
+        console.log('createdSessionId', createdSessionId);
+        console.log('setActive', setActive);
         if (createdSessionId) {
           setActive?.({ session: createdSessionId });
           console.log('Session created successfully');

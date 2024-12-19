@@ -1,6 +1,7 @@
 import { Primitives } from './Primitives';
 
-export type ColorScheme = 'main' | 'secondary' | 'brand';
+export type ElementType = 'background' | 'text' | 'border' | 'icon';
+export type ColorScheme = 'main' | 'secondary' | 'brand' | 'info' | 'warning' | 'error' | 'success';
 export type ColorType = 'primary' | 'secondary' | 'hover' | 'pressed' | 'disabled' | 'primary_inverse' | 'secondary_inverse' | 'tertiary' | 'subtle' | 'neutral' | 'neutral_inverse' | 'bold' | 'selected' | 'subtle_hover' | 'subtle_pressed';
 
 export const Colors = {
@@ -77,6 +78,8 @@ export const Colors = {
         hover: Primitives.brand_700,
         subtle: Primitives.brand_200,
         disabled: Primitives.brand_300,
+        primary_inverse: Primitives.brand_50,
+        secondary_inverse: Primitives.brand_100,
       },
       info: {
         primary: Primitives.info_500,

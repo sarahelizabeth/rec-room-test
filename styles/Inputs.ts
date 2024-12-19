@@ -1,16 +1,8 @@
 import { ViewStyle, TextStyle, StyleSheet } from 'react-native';
-import { createTextStyle } from './DesignTokens';
+import { ColorScheme, ColorType } from './Colors';
+import { createTextStyle } from './Text';
 import { Elevation } from './Effects';
 import * as Typography from './Typography';
-
-type ColorScheme = 'main' | 'secondary' | 'brand';
-type ColorType =
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'disabled'
-  | 'primary_inverse'
-  | 'secondary_inverse';
 
 const baseInput: ViewStyle = {
   flexDirection: 'row',

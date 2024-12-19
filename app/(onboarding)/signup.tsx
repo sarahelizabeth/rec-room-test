@@ -9,19 +9,21 @@ import { useRouter } from 'expo-router';
 import { ThemedText } from '@/components/ThemedText';
 import InputField from '@/components/InputField';
 import SocialAuth from '@/components/SocialAuth';
+import { useAuth } from '@clerk/clerk-expo';
 
 const SignUpPage = () => {
   const { bottom, top } = useSafeAreaInsets();
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  const [loginEmail, setLoginEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const { signOut } = useAuth();
 
   const handleNext = () => {
     if (showPassword) {
       router.push('/(onboarding)/createProfile');
     } else {
       setShowPassword(true);
-      router.push(`/(onboarding)/emailAccount?email=${email}`);
+      router.push(`/(onboarding)/emailAccount?loginEmail=${loginEmail}`);
     }
   };
 
@@ -52,12 +54,15 @@ const SignUpPage = () => {
         <View style={styles.emailContainer}>
           <InputField
             label='Sign up with email'
-            value={email}
-            onChangeText={setEmail}
+            value={loginEmail}
+            onChangeText={setLoginEmail}
             placeholder='Email'
             size='large'
             colorScheme='main'
             variant='secondary'
+            textContentType='emailAddress'
+            autoComplete='email'
+            keyboardType='email-address'
             leftIcon={<Ionicons name='mail' size={20} color={Colors.light.text.main.tertiary} />}
           />
         </View>

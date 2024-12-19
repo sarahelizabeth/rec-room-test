@@ -1,27 +1,6 @@
-import { Colors } from '@/styles/Colors';
+import { Colors, ColorScheme, ColorType, ElementType } from '@/styles/Colors';
 import { Primitives } from '@/styles/Primitives';
 import { useColorScheme } from '@/hooks/useColorScheme';
-
-export type ColorScheme = 'main' | 'secondary' | 'brand' | 'info' | 'warning' | 'error' | 'success';
-export type ElementType = 'background' | 'text' | 'border' | 'icon';
-export type ColorType =
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'hover'
-  | 'pressed'
-  | 'subtle'
-  | 'neutral'
-  | 'disabled'
-  | 'primary_inverse'
-  | 'secondary_inverse'
-  | 'neutral_inverse'
-  | 'tertiary_inverse'
-  | 'bold'
-  | 'selected'
-  | 'subtle_hover'
-  | 'subtle_pressed'
-  | 'inverse';
 
 interface ThemeColorProps {
   light?: string;

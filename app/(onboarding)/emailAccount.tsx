@@ -14,37 +14,72 @@ import InputField from '@/components/InputField';
 
 const EmailAccountPage = () => {
   const { bottom, top } = useSafeAreaInsets();
-  const { email } = useLocalSearchParams<{ email: string }>();
   const router = useRouter();
-  const [email2, setEmail2] = useState(email);
 
+  const { loginEmail } = useLocalSearchParams<{ loginEmail: string }>();
+  const [email, setEmail] = useState(loginEmail);
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [pendingVerification, setPendingVerification] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
 
-  const { signUp, setActive } = useSignUp();
-  const { signIn } = useSignIn();
+  const { isLoaded, signUp, setActive } = useSignUp();
   
-  // const onNext = async () => {
-  //   if (!signUp && !signIn) return;
+  const onSubmitUserInfo = async () => {
+    if (!isLoaded) return;
 
-  //   const res = await signUp?.create({
-  //     emailAddress: email,
-  //   });
-
-  //   if (res?.status === 'complete') {
-  //     setActive?.({
-  //       session: res.createdSessionId,
-  //     });
-  //   }
-  // };
-
-  const handleNext = () => {
     if (password !== password2) {
-      Alert.alert('Passwords do not match');
-      // return;
+      setPasswordError('Passwords do not match');
+      return;
     }
-    router.dismiss();
-    // router.push(`/(onboarding)/createProfile`);
+
+    try {
+      await signUp?.create({
+        emailAddress: email,
+        username: username,
+        password: password,
+      });
+
+      // Send user an email with verification code
+      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+
+      // Set 'pendingVerification' to true to display second form
+      // and capture OTP code
+      setPendingVerification(true);
+    } catch (error) {
+      console.error(JSON.stringify(error, null, 2));
+    }
+  }
+
+  const onVerifyPress = async () => {
+    if (!isLoaded) return;
+
+    try {
+      console.log('Attempting verification with code:', verificationCode);
+      // Use the code the user provided to attempt verification
+      const signUpAttempt = await signUp.attemptEmailAddressVerification({
+        code: verificationCode,
+      });
+
+      // If verification was completed, set the session to active
+      // and redirect the user
+      if (signUpAttempt.status === 'complete') {
+        await setActive({ session: signUpAttempt.createdSessionId });
+        console.log('User verified');
+        router.push('/(auth)/(tabs)/feed');
+      } else {
+        // If the status is not complete, check why. User may need to
+        // complete further steps.
+        console.log('User not verified');
+        console.error(JSON.stringify(signUpAttempt, null, 2));
+      }
+    } catch (err) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2));
+    }
   };
 
   return (
@@ -59,45 +94,90 @@ const EmailAccountPage = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.inputContainer}>
-          <InputField
-            label='Verified Email'
-            value={email2}
-            onChangeText={setEmail2}
-            hint='This is the email you will use to sign in to your account'
-            colorScheme='main'
-            variant='secondary'
-          />
+        {pendingVerification ? (
+          <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+            <View style={styles.inputContainer}>
+              <InputField
+                label='Verification Code'
+                value={verificationCode}
+                onChangeText={setVerificationCode}
+                hint='This is the code you will use to verify your email'
+                colorScheme='main'
+                variant='secondary'
+              />
+            </View>
 
-          <InputField
-            label='Password'
-            value={password}
-            onChangeText={setPassword}
-            colorScheme='main'
-            variant='secondary'
-          />
+            <View style={[styles.footer, {paddingBottom: bottom}]}>
+              <PrimaryButton
+                title='Verify'
+                  onPress={onVerifyPress}
+                  type='floating'
+                  size='large'
+                  variant='secondary'
+                  icon={<Ionicons name='chevron-forward' size={20} color={Colors.light.text.brand.primary} />}
+                />
+              </View>
+            </View>
+        ) : (
+          <View style={{flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+            <View style={styles.inputContainer}>
+              <InputField
+                label='Email'
+                value={email}
+                onChangeText={setEmail}
+                hint='This is the email you will use to sign in to your account'
+                colorScheme='main'
+                variant='secondary'
+              />
+              <InputField
+                label='Username'
+                value={username}
+                onChangeText={setUsername}
+                hint='This is the username you will use to sign in to your account'
+                colorScheme='main'
+                variant='secondary'
+              />
+              <InputField
+                label='Password'
+                value={password}
+                onChangeText={setPassword}
+                colorScheme='main'
+                variant='secondary'
+                error={passwordError}
+                autoComplete='new-password'
+                autoCorrect={false}
+                autoCapitalize='none'
+                secureTextEntry={true}
+                textContentType='newPassword'
+              />
 
-          <InputField
-            label='Confirm Password'
-            value={password2}
-            onChangeText={setPassword2}
-            colorScheme='main'
-            variant='secondary'
-          />
-        </View>
+              <InputField
+                label='Confirm Password'
+                value={password2}
+                onChangeText={setPassword2}
+                colorScheme='main'
+                variant='secondary'
+                error={passwordError}
+                autoComplete='password'
+                autoCorrect={false}
+                autoCapitalize='none'
+                secureTextEntry={true}
+                textContentType='password'
+              />
+            </View>
 
-        <View style={[styles.footer, { paddingBottom: bottom }]}>
-          <Link href='/(onboarding)/createProfile' asChild>
-            <PrimaryButton
-              title='Next'
-              onPress={() => handleNext()}
-              type='floating'
-              size='large'
-              variant='secondary'
-              icon={<Ionicons name='chevron-forward' size={20} color={Colors.light.text.brand.primary} />}
-            />
-          </Link>
-        </View>
+            <View style={[styles.footer, { paddingBottom: bottom }]}>
+              <PrimaryButton
+                title='Next'
+                onPress={onSubmitUserInfo}
+                type='floating'
+                size='large'
+                variant='secondary'
+                icon={<Ionicons name='chevron-forward' size={20} color={Colors.light.text.brand.primary} />}
+              />
+            </View>
+          </View>
+        )}
       </View>
     </ThemedView>
   );
@@ -109,7 +189,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 24,
     flex: 1,
-    alignItems: 'center',
     width: '100%',
   },
   header: {
@@ -123,7 +202,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     gap: 36,
-
   },
   footer: {
     width: '100%',

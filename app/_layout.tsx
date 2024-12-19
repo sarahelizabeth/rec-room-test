@@ -44,13 +44,17 @@ const InitialLayout = () => {
 
     const inAuthGroup = segments[0] === '(auth)';
     console.log(segments);
+    console.log(isSignedIn);
+    console.log(inAuthGroup);
 
     if (isSignedIn && !inAuthGroup) {
+      console.log('isSignedIn and !inAuthGroup');
       router.replace('/(auth)/(tabs)/feed');
     } else if (!isSignedIn && inAuthGroup) {
+      console.log('!isSignedIn and inAuthGroup');
       router.replace('/');
     }
-  }, [isSignedIn]);
+  }, [isSignedIn, isLoaded]);
 
   if (!isLoaded) {
     return (

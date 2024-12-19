@@ -1,12 +1,6 @@
 export enum OAuthStrategy {
   Google = 'oauth_google',
   Apple = 'oauth_apple',
-  Facebook = 'oauth_facebook',
+  Github = 'oauth_github',
 }
 
-export interface User {
-  id: string;
-  email: string;
-  username: string;
-  avatar_url: string;
-}

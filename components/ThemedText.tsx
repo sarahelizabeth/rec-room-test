@@ -1,14 +1,15 @@
 import { Text, TextProps, StyleSheet } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import * as Typography from '@/styles/Typography';
+import { ColorScheme, ColorType } from '@/styles/Colors';
 
 export type ThemedTextProps = TextProps & {
   children: React.ReactNode;
   variant?: 'body' | 'label' | 'display';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   weight?: 'light' | 'regular' | 'medium' | 'semiBold' | 'bold' | 'extraBold';
-  colorScheme?: 'main' | 'secondary' | 'brand';
-  colorType?: 'primary' | 'secondary' | 'tertiary' | 'subtle' | 'neutral' | 'primary_inverse' | 'secondary_inverse' | 'neutral_inverse';
+  colorScheme?: ColorScheme;
+  colorType?: ColorType;
   lightColor?: string;
   darkColor?: string;
 };

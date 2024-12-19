@@ -1,10 +1,11 @@
 // styles/Buttons.ts
-
 import { ViewStyle, TextStyle } from 'react-native';
 import * as Typography from './Typography';
-import { createTextStyle } from './DesignTokens';
+import { createTextStyle } from './Text';
 import { Elevation } from './Effects';
 import { ColorScheme, ColorType } from './Colors';
+
+export type ButtonSize = 'small' | 'medium' | 'large' | 'xLarge';
 
 // Base styles shared across all buttons
 const baseButton: ViewStyle = {
@@ -27,7 +28,7 @@ export const textButtonSizes: Record<string, { container: ViewStyle, text: TextS
   },
   medium: {
     container: {
-      paddingVertical: 12,
+      paddingVertical: 10,
       paddingHorizontal: 16,
       borderRadius: 6,
       gap: 8,
@@ -45,7 +46,7 @@ export const textButtonSizes: Record<string, { container: ViewStyle, text: TextS
   },
   xLarge: {
     container: {
-      paddingVertical: 24,
+      paddingVertical: 16,
       paddingHorizontal: 16,
       borderRadius: 8,
       gap: 8,
@@ -165,22 +166,19 @@ export const Buttons = {
         },
         secondary: {
           border: {
-            default: { colorScheme: 'secondary' as ColorScheme, colorType: 'primary' as ColorType },
-            hover: { colorScheme: 'secondary' as ColorScheme, colorType: 'hover' as ColorType },
-            pressed: { colorScheme: 'secondary' as ColorScheme, colorType: 'pressed' as ColorType },
-            disabled: { colorScheme: 'secondary' as ColorScheme, colorType: 'disabled' as ColorType },
+            default: { colorScheme: 'main' as ColorScheme, colorType: 'secondary_inverse' as ColorType },
           },
           text: {
-            default: { colorScheme: 'secondary' as ColorScheme, colorType: 'primary' as ColorType },
-            disabled: { colorScheme: 'secondary' as ColorScheme, colorType: 'disabled' as ColorType },
+            default: { colorScheme: 'main' as ColorScheme, colorType: 'primary_inverse' as ColorType },
+            disabled: { colorScheme: 'main' as ColorScheme, colorType: 'disabled' as ColorType },
           }
         },
         tertiary: {
           border: {
-            default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
+            default: { colorScheme: 'brand' as ColorScheme, colorType: 'disabled' as ColorType },
           },
           text: {
-            default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
+            default: { colorScheme: 'brand' as ColorScheme, colorType: 'inverse' as ColorType },
             disabled: { colorScheme: 'brand' as ColorScheme, colorType: 'disabled' as ColorType },
           }
         }
