@@ -1,6 +1,5 @@
 import { View, type ViewProps, StyleSheet } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { spacing } from '@/styles/DesignTokens';
 import { Elevation } from '@/styles/Effects';
 
 export type ThemedViewProps = ViewProps & {
@@ -57,24 +56,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: spacing[12],
+    padding: 12,
   },
   fullPage: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: spacing[12],
+    paddingHorizontal: 12,
   },
   card: {
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: spacing[16],
-    borderRadius: spacing[12],
+    padding: 16,
+    borderRadius: 12,
   },
   modal: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: spacing[16],
-    borderRadius: spacing[12],
+    padding: 16,
+    borderRadius: 12,
   },
 });

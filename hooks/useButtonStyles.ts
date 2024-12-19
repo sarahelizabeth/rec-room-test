@@ -2,17 +2,24 @@
 
 import { StyleSheet } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { Buttons, Modifiers } from '@/styles';
+import { Buttons, Modifiers, textButtonSizes, iconButtonSizes } from '@/styles';
 
 export const useButtonStyles = (
+  buttonType: 'text' | 'icon',
   type: 'solid' | 'outline' | 'ghost' | 'floating' = 'solid',
   size: 'small' | 'medium' | 'large' | 'xLarge' = 'medium',
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary',
   isPill?: boolean,
   isDisabled?: boolean
 ) => {
-  const buttonConfig = Buttons[type].variants[variant];
-  const sizeConfig = Buttons[type].sizes[size];
+  console.log('buttonType:', buttonType);
+  console.log('Buttons:', Buttons);
+  console.log('type:', type);
+  console.log('size:', size);
+  console.log('variant:', variant);
+  
+  const buttonConfig = Buttons[buttonType][type].variants[variant];
+  const sizeConfig = Buttons[buttonType][type].sizes[size];
 
   // Get background color based on button type and variant
   const backgroundColor = (type === 'solid' || type === 'floating') && 'background' in buttonConfig
@@ -36,19 +43,23 @@ export const useButtonStyles = (
     colorType: buttonConfig.text[isDisabled ? 'disabled' : 'default'].colorType
   }, 'text');
 
-  return StyleSheet.create({
+  const styles = {
     button: {
-      ...Buttons[type].base,
+      ...Buttons[buttonType][type].base,
       ...sizeConfig.container,
       backgroundColor,
       borderColor,
       ...(isPill && Modifiers.pill),
       ...(isDisabled && Modifiers.disabled),
     },
-    buttonText: {
-      ...sizeConfig.text,
-      color: textColor,
-      textAlign: 'center',
-    },
-  });
+    ...(buttonType === 'text' && 'text' in sizeConfig && {
+      buttonText: {
+        ...(sizeConfig as typeof textButtonSizes['small']).text,
+        color: textColor,
+        textAlign: 'center' as const,
+      },
+    }),
+  };
+
+  return StyleSheet.create(styles);
 };

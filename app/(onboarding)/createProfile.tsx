@@ -6,18 +6,20 @@ import { ThemedView } from '@/components/ThemedView'
 import { ThemedText } from '@/components/ThemedText'
 import InputField from '@/components/InputField'
 import { Ionicons } from '@expo/vector-icons'
-import { Colors, spacing } from '@/styles'
+import { Colors } from '@/styles/Colors'
 import { useBotttsAvatar } from '@/hooks/useAvatar'
 import { SvgUri } from 'react-native-svg';
+import { useUser } from '@clerk/clerk-expo'
 
 
 const CreateProfilePage = () => {
   const router = useRouter()
   const { top } = useSafeAreaInsets()
+  const { user } = useUser()
   const [username, setUsername] = useState('')
-  const [usernameError, setUsernameError] = useState('This is a shit username')
+  const [usernameError, setUsernameError] = useState('')
   const [avatarUri, setAvatarUri] = useState(useBotttsAvatar())
-
+  console.log(user)
   const checkUsername = () => {
     // TODO: Check if username is already taken
     setUsernameError('This username is already taken')
@@ -41,13 +43,13 @@ const CreateProfilePage = () => {
 
   return (
     <ThemedView variant='fullPage' colorScheme='brand' colorType='primary'>
-      <View style={styles.container}>
-        <View style={[styles.header, { paddingTop: top + spacing[24] }]}>
+      <View style={[styles.container, { paddingTop: top }]}>
+        <View style={styles.header}>
           <ThemedText size='sm' variant='display' colorScheme='main' colorType='primary_inverse'>
             Create Profile
           </ThemedText>
           <TouchableOpacity onPress={() => router.dismissAll()}>
-            <Ionicons name='close' size={20} color={Colors.light.text.main.primary_inverse} />
+            <Ionicons name='close' size={24} color={Colors.light.text.main.primary_inverse} />
           </TouchableOpacity>
         </View>
 
@@ -94,14 +96,14 @@ export default CreateProfilePage
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: spacing[16],
+    paddingHorizontal: 16,
     width: '100%',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // paddingHorizontal: spacing[24],
+    paddingVertical: 24,
     width: '100%',
   },
   usernameContainer: {
@@ -110,8 +112,8 @@ const styles = StyleSheet.create({
   avatarContainer: {
     width: '100%',
     flex: 1,
-    gap: spacing[16],
-    paddingHorizontal: spacing[16],
+    gap: 16,
+    paddingHorizontal: 16,
   },
   avatarRow: {
     flexDirection: 'row',
@@ -120,32 +122,32 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   uploadAvatarButton: {
-    width: spacing[48],
-    height: spacing[48],
+    width: 48,
+    height: 48,
     backgroundColor: Colors.light.background.main.primary,
-    borderRadius: spacing[8],
+    borderRadius: 8,
   },
   divider: {
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Colors.light.text.main.primary,
-    height: spacing[48],
+    height: 48,
   },
   defaultAvatarPreview: {
-    width: spacing[48],
-    height: spacing[48],
+    width: 48,
+    height: 48,
     backgroundColor: Colors.light.background.main.primary,
-    borderRadius: spacing[8],
+    borderRadius: 8,
   },
   initialsAvatarPreview: {
-    width: spacing[48],
-    height: spacing[48],
+    width: 48,
+    height: 48,
     backgroundColor: Colors.light.background.main.primary,
-    borderRadius: spacing[8],
+    borderRadius: 8,
   },
   botsAvatarPreview: {
-    width: spacing[48],
-    height: spacing[48],
-    borderRadius: spacing[8],
+    width: 120,
+    height: 120,
+    borderRadius: 8,
     overflow: 'hidden',
   },
 });

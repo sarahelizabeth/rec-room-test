@@ -2,7 +2,6 @@ import { StyleSheet, TouchableOpacity, View, StyleProp, ViewStyle } from 'react-
 import React, { forwardRef } from 'react'
 import { useButtonStyles } from '@/hooks/useButtonStyles'
 import { ThemedText } from './ThemedText'
-import { spacing } from '@/styles/DesignTokens'
 
 interface PrimaryButtonProps {
   title: string
@@ -22,7 +21,7 @@ const PrimaryButton = forwardRef<View, PrimaryButtonProps & { style?: StyleProp<
   disabled, 
   ...rest
 }: PrimaryButtonProps & { style?: StyleProp<ViewStyle> }, ref: React.Ref<View>) => {
-  const styles = useButtonStyles(rest.type, rest.size, rest.variant, rest.isPill, disabled)
+  const styles = useButtonStyles('text', rest.type, rest.size, rest.variant, rest.isPill, disabled)
 
   return (
     <TouchableOpacity 
@@ -66,7 +65,7 @@ const buttonStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: spacing[8],
+    gap: 8,
   },
   iconContainer: {
     justifyContent: 'center',

@@ -20,8 +20,9 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { id, email_addresses, avatar_url, username, first_name } = (await req.json()).data;
+    const { id, email_addresses, imageUrl, username, first_name } = (await req.json()).data;
     const email = email_addresses[0].email_address;
+    const avatar_url = imageUrl;
 
     const { data, error } = await supabase
         .from('users')

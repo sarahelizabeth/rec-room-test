@@ -1,5 +1,8 @@
 import { Primitives } from './Primitives';
 
+export type ColorScheme = 'main' | 'secondary' | 'brand';
+export type ColorType = 'primary' | 'secondary' | 'hover' | 'pressed' | 'disabled' | 'primary_inverse' | 'secondary_inverse' | 'tertiary' | 'subtle' | 'neutral' | 'neutral_inverse' | 'bold' | 'selected' | 'subtle_hover' | 'subtle_pressed';
+
 export const Colors = {
   light: {
     background: {

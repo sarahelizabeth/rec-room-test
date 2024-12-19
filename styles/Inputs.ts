@@ -1,5 +1,6 @@
 import { ViewStyle, TextStyle, StyleSheet } from 'react-native';
-import { spacing, createTextStyle, Elevation } from './';
+import { createTextStyle } from './DesignTokens';
+import { Elevation } from './Effects';
 import * as Typography from './Typography';
 
 type ColorScheme = 'main' | 'secondary' | 'brand';
@@ -15,15 +16,15 @@ const baseInput: ViewStyle = {
   flexDirection: 'row',
   alignItems: 'center',
   borderWidth: 1,
-  borderRadius: spacing[8],
-  minHeight: spacing[44],
+  borderRadius: 8,
+  minHeight: 44,
   ...Elevation.xs,
 };
 
 const baseTextField: TextStyle = {
   flex: 1,
-  paddingHorizontal: spacing[12],
-  paddingVertical: spacing[8],
+  paddingHorizontal: 12,
+  paddingVertical: 8,
 
   ...createTextStyle('regular', Typography.body.md),
 };
@@ -31,7 +32,7 @@ const baseTextField: TextStyle = {
 const sizes = {
   small: {
     input: {
-      minHeight: spacing[36],
+      minHeight: 36,
     },
     text: createTextStyle('regular', Typography.body.sm),
     label: createTextStyle('medium', Typography.label.md),
@@ -39,7 +40,7 @@ const sizes = {
   },
   medium: {
     input: {
-      minHeight: spacing[44],
+      minHeight: 44,
     },
     text: createTextStyle('regular', Typography.body.md),
     label: createTextStyle('bold', Typography.label.md),
@@ -47,7 +48,7 @@ const sizes = {
   },
   large: {
     input: {
-      minHeight: spacing[52],
+      minHeight: 52,
     },
     text: createTextStyle('regular', Typography.body.lg),
     label: createTextStyle('medium', Typography.label.lg),
@@ -59,7 +60,7 @@ export const InputStyles = {
     base: {
       container: {
         width: '100%' as const,
-        gap: spacing[4],
+        gap: 4,
       },
       input: {
         ...baseInput,
@@ -71,7 +72,7 @@ export const InputStyles = {
         flexDirection: 'row' as const,
         justifyContent: 'space-between' as const,
         alignItems: 'center' as const,
-        marginBottom: spacing[4],
+        marginBottom: 4,
       },
       messageContainer: {
         marginTop: 4,

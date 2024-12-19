@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Alert } fro
 import React, { useState } from 'react';
 import { Colors } from '@/styles/Colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SIGNUP_OPTIONS } from '@/types/constants';
 import { Ionicons } from '@expo/vector-icons';
 import PrimaryButton from '@/components/PrimaryButton';
 import { ThemedView } from '@/components/ThemedView';
