@@ -85,3 +85,37 @@ export const Primitives = {
   brand_100: '#F1D6FF',
   brand_50: '#F3EFF5',
 };
+
+export const {
+  gap_xs,
+  gap_sm,
+  gap_md,
+  gap_lg,
+  gap_xl,
+  gap_2xl,
+  gap_3xl,
+  gap_4xl,
+  gap_5xl,
+} = {
+  gap_xs: 4,
+  gap_sm: 8,
+  gap_md: 12,
+  gap_lg: 16,
+  gap_xl: 20,
+  gap_2xl: 24,
+  gap_3xl: 32,
+  gap_4xl: 40,
+  gap_5xl: 48,
+};
+
+export const Gaps = {
+  gap_xs,
+  gap_sm,
+  gap_md,
+  gap_lg,
+  gap_xl,
+  gap_2xl,
+  gap_3xl,
+  gap_4xl,
+  gap_5xl,
+};

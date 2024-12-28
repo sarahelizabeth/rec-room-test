@@ -1,5 +1,6 @@
 import { createAvatar } from '@dicebear/core'
 import { botttsNeutral } from '@dicebear/collection'
+// import { toPng } from '@dicebear/converter'
 
 export const useBotttsAvatar = () => {
   const avatar = createAvatar(botttsNeutral, {

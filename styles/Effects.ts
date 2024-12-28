@@ -30,17 +30,17 @@ export const Elevation = {
     shadowOpacity: 1,
   },
   xl: {
-    shadowColor: Primitives.black_a10,
-    shadowOffset: { width: 0, height: 20 },
-    shadowRadius: 25,
-    elevation: 25,
+    shadowColor: Primitives.black_a20,
+    shadowOffset: { width: 0, height: 15 },
+    shadowRadius: 20,
+    elevation: 20,
     shadowOpacity: 1,
   },
   xxl: {
     shadowColor: Primitives.black_a20,
-    shadowOffset: { width: 0, height: 25 },
-    shadowRadius: 50,
-    elevation: 50,
+    shadowOffset: { width: 0, height: 20 },
+    shadowRadius: 25,
+    elevation: 25,
     shadowOpacity: 1,
-  },
+  }
 };

@@ -4,7 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { tokenCache } from '@/utils/tokenCache';
-import { ClerkProvider, ClerkLoaded, useAuth } from '@clerk/clerk-expo';
+import { ClerkProvider, ClerkLoaded, useAuth, useSession, useUser } from '@clerk/clerk-expo';
 import AppLoading from 'expo-app-loading';
 import {
   useFonts,
@@ -33,10 +33,11 @@ if (!publishableKey) {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-
 const InitialLayout = () => {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
+  const { session } = useSession();
+  const { user } = useUser();
   const segments = useSegments();
 
   useEffect(() => {
@@ -44,10 +45,17 @@ const InitialLayout = () => {
 
     const inAuthGroup = segments[0] === '(auth)';
     console.log(segments);
-    console.log(isSignedIn);
-    console.log(inAuthGroup);
+    // console.log(session);
+    console.log('user', user);
+    console.log('isSignedIn', isSignedIn);
+    console.log('inAuthGroup', inAuthGroup);
 
-    if (isSignedIn && !inAuthGroup) {
+    if (isSignedIn && user?.username === null) {
+      console.log('isSignedIn and !user?.username');
+      router.replace('/(onboarding)/createProfile');
+      // return;
+    }
+    else if (isSignedIn && !inAuthGroup)  {
       console.log('isSignedIn and !inAuthGroup');
       router.replace('/(auth)/(tabs)/feed');
     } else if (!isSignedIn && inAuthGroup) {
@@ -55,6 +63,27 @@ const InitialLayout = () => {
       router.replace('/');
     }
   }, [isSignedIn, isLoaded]);
+
+  // useEffect(() => {
+  //   if (!isLoaded) return;
+
+  //   const inAuthGroup = segments[0] === '(auth)';
+  //   console.log(segments);
+  //   // console.log(session);
+  //   console.log('user', user);
+  //   console.log('isSignedIn', isSignedIn);
+  //   console.log('inAuthGroup', inAuthGroup);
+
+  //   if (isSignedIn && user?.username === null) {
+  //     console.log('isSignedIn and !user?.username');
+  //     router.replace('/(onboarding)/createProfile');
+
+  //   else if (!isSignedIn) {
+  //     console.log('!isSignedIn');
+  //     router.replace('/');
+  //     return;
+  //   }
+  // }, [isSignedIn, isLoaded]);
 
   if (!isLoaded) {
     return (

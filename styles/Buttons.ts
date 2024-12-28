@@ -3,6 +3,7 @@ import { ViewStyle, TextStyle } from 'react-native';
 import * as Typography from './Typography';
 import { createTextStyle } from './Text';
 import { Elevation } from './Effects';
+import { gap_sm, gap_md, gap_lg, gap_xl, gap_2xl, gap_3xl, gap_4xl, gap_5xl } from './Primitives';
 import { ColorScheme, ColorType } from './Colors';
 
 export type ButtonSize = 'small' | 'medium' | 'large' | 'xLarge';
@@ -22,7 +23,7 @@ export const textButtonSizes: Record<string, { container: ViewStyle, text: TextS
       paddingVertical: 8,
       paddingHorizontal: 16,
       borderRadius: 6,
-      gap: 8,
+      gap: gap_sm,
     },
     text: createTextStyle('semiBold', Typography.body.sm),
   },
@@ -31,7 +32,7 @@ export const textButtonSizes: Record<string, { container: ViewStyle, text: TextS
       paddingVertical: 10,
       paddingHorizontal: 16,
       borderRadius: 6,
-      gap: 8,
+      gap: gap_sm,
     },
     text: createTextStyle('semiBold', Typography.body.md),
   },
@@ -40,7 +41,7 @@ export const textButtonSizes: Record<string, { container: ViewStyle, text: TextS
       paddingVertical: 12,
       paddingHorizontal: 16,
       borderRadius: 8,
-      gap: 8,
+      gap: gap_sm,
     },
     text: createTextStyle('semiBold', Typography.body.lg),
   },
@@ -49,7 +50,7 @@ export const textButtonSizes: Record<string, { container: ViewStyle, text: TextS
       paddingVertical: 16,
       paddingHorizontal: 16,
       borderRadius: 8,
-      gap: 8,
+      gap: gap_sm,
     },
     text: createTextStyle('semiBold', Typography.body.xl),
   }
@@ -204,12 +205,9 @@ export const Buttons = {
           }
         },
         tertiary: {
-          background: {
-            default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
-          },
           text: {
-            default: { colorScheme: 'brand' as ColorScheme, colorType: 'primary' as ColorType },
-            disabled: { colorScheme: 'brand' as ColorScheme, colorType: 'disabled' as ColorType },
+            default: { colorScheme: 'main' as ColorScheme, colorType: 'primary_inverse' as ColorType },
+            disabled: { colorScheme: 'main' as ColorScheme, colorType: 'disabled' as ColorType },
           }
         }
       }

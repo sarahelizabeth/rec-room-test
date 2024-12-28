@@ -4,8 +4,7 @@ import { ThemedText } from './ThemedText'
 import { useThemeColor } from '@/hooks/useThemeColor'
 import { InputStyles } from '@/styles'
 import { Elevation } from '@/styles/Effects'
-import { ColorScheme } from '@/styles/Colors'
-import { AutoCompleteTypes, InputContentTypes } from '@/types/helpers'
+import { InputContentTypes } from '@/types/helpers'
 
 interface InputFieldProps extends Omit<TextInputProps, 'onChange'> {
   label: string
@@ -18,12 +17,12 @@ interface InputFieldProps extends Omit<TextInputProps, 'onChange'> {
   error?: string
   size?: 'small' | 'medium' | 'large'
   variant?: 'primary' | 'secondary'
-  colorScheme?: ColorScheme
   disabled?: boolean
   textContentType?: InputContentTypes
   keyboardType?: KeyboardTypeOptions
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters'
   autoCorrect?: boolean
+  onSubmitEditing?: () => void
 }
 
 const InputField = ({ 
@@ -37,13 +36,13 @@ const InputField = ({
   error,
   size = 'medium',
   variant = 'primary',
-  colorScheme = 'main',
   disabled,
   style,
   textContentType = 'none',
   autoComplete = 'off',
   autoCapitalize = 'none',
   autoCorrect = false,
+  onSubmitEditing,
   ...rest
 }: InputFieldProps) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -134,6 +133,7 @@ const InputField = ({
           ]}
           value={value}
           onChangeText={onChangeText}
+          onSubmitEditing={onSubmitEditing}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholderTextColor={placeholderColor}

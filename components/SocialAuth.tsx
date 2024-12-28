@@ -1,7 +1,7 @@
 import { StyleSheet, View, Image } from 'react-native';
 import React from 'react';
 import PrimaryButton from '@/components/PrimaryButton';
-import { useOAuth, useSignUp, useSignIn } from '@clerk/clerk-expo';
+import { useOAuth, useSignUp, useSignIn, useUser } from '@clerk/clerk-expo';
 import { OAuthStrategy } from '@/types/enums';
 import { useRouter } from 'expo-router';
 
@@ -30,6 +30,7 @@ const SocialAuth = ({ type }: { type: 'signUp' | 'signIn' }) => {
   const router = useRouter();
   const { signUp, setActive } = useSignUp();
   const { signIn } = useSignIn();
+  const { user } = useUser();
   const { startOAuthFlow: googleAuth } = useOAuth({ strategy: OAuthStrategy.Google });
   const { startOAuthFlow: appleAuth } = useOAuth({ strategy: OAuthStrategy.Apple });
   const { startOAuthFlow: githubAuth } = useOAuth({ strategy: OAuthStrategy.Github });
@@ -65,6 +66,7 @@ const SocialAuth = ({ type }: { type: 'signUp' | 'signIn' }) => {
         setActive?.({
           session: res.createdSessionId,
         });
+        // router.push('/(onboarding)/createProfile');
       }
     }
 
@@ -84,6 +86,7 @@ const SocialAuth = ({ type }: { type: 'signUp' | 'signIn' }) => {
         setActive?.({
           session: res.createdSessionId,
         });
+        // router.push('/(onboarding)/createProfile');
       }
     } else {
       console.log('User needs to be signed in');
@@ -96,7 +99,12 @@ const SocialAuth = ({ type }: { type: 'signUp' | 'signIn' }) => {
         if (createdSessionId) {
           setActive?.({ session: createdSessionId });
           console.log('Session created successfully');
-          router.push('/(auth)/(tabs)/feed');
+          // router.push('/(onboarding)/createProfile');
+          // if (type === 'signUp' || user?.username === null) {
+          //   router.push('/(onboarding)/createProfile');
+          // } else {
+          //   router.push('/(auth)/(tabs)/feed');
+          // }
         }
       } catch (err) {
         console.error('Error signing in or signing up', err);

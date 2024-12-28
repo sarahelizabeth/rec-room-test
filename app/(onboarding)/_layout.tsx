@@ -1,16 +1,6 @@
-import { useAuth } from '@clerk/clerk-expo';
-import { Ionicons } from '@expo/vector-icons';
-import { Redirect, Stack, useRouter } from 'expo-router';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { Stack } from 'expo-router';
 
 export default function OnboardingLayout() {
-  const router = useRouter();
-  const { isLoaded, isSignedIn } = useAuth();
-
-  if (isSignedIn) {
-    return <Redirect href='/(auth)/(tabs)/feed' />
-  }
-
   return (
     <Stack>
       <Stack.Screen

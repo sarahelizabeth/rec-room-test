@@ -9,15 +9,18 @@ import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '@/styles/Colors'
 import { useBotttsAvatar } from '@/hooks/useAvatar'
 import { SvgUri } from 'react-native-svg';
-import { useUser } from '@clerk/clerk-expo'
+import { useAuth, useUser } from '@clerk/clerk-expo'
+import PrimaryButton from '@/components/PrimaryButton'
 
 
 const CreateProfilePage = () => {
   const router = useRouter()
-  const { top } = useSafeAreaInsets()
+  const { top, bottom } = useSafeAreaInsets()
   const { user } = useUser()
+  const { signOut } = useAuth()
   const [username, setUsername] = useState('')
   const [usernameError, setUsernameError] = useState('')
+  const [firstName, setFirstName] = useState(user?.firstName || '')
   const [avatarUri, setAvatarUri] = useState(useBotttsAvatar())
   console.log(user)
   const checkUsername = () => {
@@ -37,13 +40,24 @@ const CreateProfilePage = () => {
     setAvatarUri(useBotttsAvatar())
   }
 
-  const onFinish = () => {
+  const onFinish = async () => {
     // TODO: Finish creating profile
+    try {
+      await user?.update({
+        username: username,
+        firstName: firstName,
+      })
+      router.push('/(auth)/(tabs)/feed')
+    } catch (error) {
+      console.error(error)
+    }
+
   }
 
   return (
     <ThemedView variant='fullPage' colorScheme='brand' colorType='primary'>
       <View style={[styles.container, { paddingTop: top }]}>
+
         <View style={styles.header}>
           <ThemedText size='sm' variant='display' colorScheme='main' colorType='primary_inverse'>
             Create Profile
@@ -53,38 +67,78 @@ const CreateProfilePage = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.usernameContainer}></View>
-        <InputField
-          label='Username'
-          value={username}
-          onChangeText={setUsername}
-          hint='This will be your username on the app'
-          error={usernameError}
-          colorScheme='main'
-          variant='secondary'
-          placeholder='Enter your username'
-          maxLength={20}
-          leftIcon={<Ionicons name='person' size={20} color={Colors.light.text.main.primary} />}
-        />
-      </View>
+        <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+          <View style={styles.inputContainer}>
+            <InputField
+              label='Username'
+              value={username}
+              onChangeText={setUsername}
+              error={usernameError}
+              variant='secondary'
+              placeholder='Your username...'
+              maxLength={20}
+              leftIcon={<Ionicons name='person' size={20} color={Colors.light.text.main.primary} />}
+            />
 
-      <View style={styles.avatarContainer}>
-        <ThemedText>Your Avatar</ThemedText>
-        <TouchableOpacity onPress={handleRegenerateAvatar}>
-          <ThemedText>regenerate avatar</ThemedText>
-        </TouchableOpacity>
-        <View style={styles.avatarRow}>
-          <View style={styles.uploadAvatarButton}></View>
-          <View style={styles.divider} />
-          <View style={styles.defaultAvatarPreview}>{/* <ThemedText>Default Avatar</ThemedText> */}</View>
-          <View style={styles.initialsAvatarPreview}>{/* <ThemedText>Initials Avatar</ThemedText> */}</View>
-          <View style={styles.botsAvatarPreview}>
-            <SvgUri
-              width="100%"
-              height="100%"
-              uri={avatarUri}
+            <InputField
+              label='First Name (optional)'
+              value={firstName}
+              onChangeText={setFirstName}
+              variant='secondary'
+              size='small'
+              placeholder='Your first name...'
+              hint='This will be displayed to your friends & used for search'
             />
           </View>
+
+          <View style={styles.avatarContainer}>
+            <ThemedText
+              size='sm'
+              variant='display'
+              colorScheme='brand'
+              colorType='primary_inverse'
+            >
+              Your Avatar
+            </ThemedText>
+            <PrimaryButton
+              title='Regenerate Avatar'
+              onPress={handleRegenerateAvatar}
+              type='floating'
+              size='small'
+              variant='secondary'
+              icon={<Ionicons name='refresh' size={20} color={Colors.light.text.brand.primary} />}
+            />
+            <View style={styles.avatarRow}>
+              <View style={styles.uploadAvatarButton}></View>
+              <View style={styles.divider} />
+              <View style={styles.defaultAvatarPreview}>
+                <Image source={{ uri: user?.imageUrl }} style={styles.defaultAvatarPreview} />
+              </View>
+              <View style={styles.initialsAvatarPreview}>{/* <ThemedText>Initials Avatar</ThemedText> */}</View>
+              <View style={styles.botsAvatarPreview}>
+                <SvgUri width='100%' height='100%' uri={avatarUri} />
+              </View>
+            </View>
+          </View>
+        </View>
+
+        <View style={[styles.footer, { paddingBottom: bottom + 24 }]}>
+          <PrimaryButton
+            title='Finish'
+            onPress={onFinish}
+            type='floating'
+            size='large'
+            variant='secondary'
+            icon={<Ionicons name='chevron-forward' size={20} color={Colors.light.text.brand.primary} />}
+            iconPosition='right'
+          />
+          <PrimaryButton
+            title='Sign Out'
+            onPress={signOut}
+            type='ghost'
+            size='small'
+            variant='secondary'
+          />
         </View>
       </View>
     </ThemedView>
@@ -106,14 +160,16 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     width: '100%',
   },
-  usernameContainer: {
+  inputContainer: {
     width: '100%',
+    gap: 32,
   },
   avatarContainer: {
     width: '100%',
     flex: 1,
     gap: 16,
     paddingHorizontal: 16,
+    justifyContent: 'center',
   },
   avatarRow: {
     flexDirection: 'row',
@@ -122,8 +178,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   uploadAvatarButton: {
-    width: 48,
-    height: 48,
+    width: 72,
+    height: 72,
     backgroundColor: Colors.light.background.main.primary,
     borderRadius: 8,
   },
@@ -133,21 +189,24 @@ const styles = StyleSheet.create({
     height: 48,
   },
   defaultAvatarPreview: {
-    width: 48,
-    height: 48,
+    width: 72,
+    height: 72,
     backgroundColor: Colors.light.background.main.primary,
     borderRadius: 8,
   },
   initialsAvatarPreview: {
-    width: 48,
-    height: 48,
+    width: 72,
+    height: 72,
     backgroundColor: Colors.light.background.main.primary,
     borderRadius: 8,
   },
   botsAvatarPreview: {
-    width: 120,
-    height: 120,
+    width: 72,
+    height: 72,
     borderRadius: 8,
     overflow: 'hidden',
+  },
+  footer: {
+    width: '100%',
   },
 });

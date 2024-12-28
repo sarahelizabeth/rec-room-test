@@ -18,7 +18,9 @@ const LoginPage = () => {
 
 
   const handleNext = () => {
-    
+    // TODO: Add login logic... check if user exists, if not, create user
+    // TODO: If user exists, check if user has a username, if not, take them through the onboarding flow
+    // TODO: If user has a username, take them to the feed
   };
 
   return (
@@ -40,7 +42,6 @@ const LoginPage = () => {
             onChangeText={setEmail}
             placeholder='Email'
             size='large'
-            colorScheme='main'
             variant='secondary'
             leftIcon={<Ionicons name='mail' size={20} color={Colors.light.text.main.tertiary} />}
           />
@@ -50,7 +51,6 @@ const LoginPage = () => {
             onChangeText={setPassword}
             placeholder='Password'
             size='large'
-            colorScheme='main'
             variant='secondary'
             leftIcon={<Ionicons name='lock-closed' size={20} color={Colors.light.text.main.tertiary} />}
           />

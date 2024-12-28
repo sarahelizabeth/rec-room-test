@@ -6,8 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import PrimaryButton from '@/components/PrimaryButton';
 import { ThemedView } from '@/components/ThemedView';
 import { Link, useRouter } from 'expo-router';
-import { useOAuth, useSignUp, useSignIn } from '@clerk/clerk-expo';
-import { OAuthStrategy } from '@/types/enums';
+import { useSignUp } from '@clerk/clerk-expo';
 import { ThemedText } from '@/components/ThemedText';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
 import InputField from '@/components/InputField';
@@ -68,7 +67,7 @@ const EmailAccountPage = () => {
       if (signUpAttempt.status === 'complete') {
         await setActive({ session: signUpAttempt.createdSessionId });
         console.log('User verified');
-        router.push('/(auth)/(tabs)/feed');
+        router.push('/(onboarding)/createProfile');
       } else {
         // If the status is not complete, check why. User may need to
         // complete further steps.
@@ -96,13 +95,12 @@ const EmailAccountPage = () => {
 
         {pendingVerification ? (
           <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-            <View style={styles.inputContainer}>
+            <View style={{ flex: 1, width: '100%' }}>
               <InputField
                 label='Verification Code'
                 value={verificationCode}
                 onChangeText={setVerificationCode}
-                hint='This is the code you will use to verify your email'
-                colorScheme='main'
+                hint='Please enter the 6 digit code sent to your email'
                 variant='secondary'
               />
             </View>
@@ -126,22 +124,20 @@ const EmailAccountPage = () => {
                 value={email}
                 onChangeText={setEmail}
                 hint='This is the email you will use to sign in to your account'
-                colorScheme='main'
                 variant='secondary'
               />
-              <InputField
+              {/* <InputField
                 label='Username'
                 value={username}
                 onChangeText={setUsername}
                 hint='This is the username you will use to sign in to your account'
                 colorScheme='main'
                 variant='secondary'
-              />
+              /> */}
               <InputField
                 label='Password'
                 value={password}
                 onChangeText={setPassword}
-                colorScheme='main'
                 variant='secondary'
                 error={passwordError}
                 autoComplete='new-password'
@@ -155,7 +151,6 @@ const EmailAccountPage = () => {
                 label='Confirm Password'
                 value={password2}
                 onChangeText={setPassword2}
-                colorScheme='main'
                 variant='secondary'
                 error={passwordError}
                 autoComplete='password'

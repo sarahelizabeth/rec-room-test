@@ -1,5 +1,6 @@
 import { ViewStyle, TextStyle, StyleSheet } from 'react-native';
 import { ColorScheme, ColorType } from './Colors';
+import { Gaps } from './Primitives';
 import { createTextStyle } from './Text';
 import { Elevation } from './Effects';
 import * as Typography from './Typography';
@@ -52,7 +53,7 @@ export const InputStyles = {
     base: {
       container: {
         width: '100%' as const,
-        gap: 4,
+        gap: Gaps.gap_xs,
       },
       input: {
         ...baseInput,
@@ -64,10 +65,10 @@ export const InputStyles = {
         flexDirection: 'row' as const,
         justifyContent: 'space-between' as const,
         alignItems: 'center' as const,
-        marginBottom: 4,
+        marginBottom: Gaps.gap_xs,
       },
       messageContainer: {
-        marginTop: 4,
+        marginTop: Gaps.gap_xs,
       },
       iconContainer: {
         paddingHorizontal: 12,
